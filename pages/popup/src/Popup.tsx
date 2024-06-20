@@ -4,11 +4,27 @@ import { KeyboardService } from '../../../chrome-extension/global.service/keyboa
 import { useObservable } from 'micro-observables';
 import { SaveShortcut } from './pages/SaveShortcut';
 import { ListenToShortcut } from './pages/ListenToShortcut';
+import ExtPay from 'extpay';
+import { useEffect } from 'react';
 
 const keyboardService = new KeyboardService();
 
+const extPay = ExtPay('shortcute');
+
 const Popup = () => {
   const shortcut = useObservable(keyboardService.shortcut);
+
+  useEffect(() => {
+    extPay.onPaid.addListener(user => {
+      console.log('user paid!', user);
+    });
+    extPay.getUser().then(user => {
+      if (!user.paid) {
+        extPay.openPaymentPage();
+      }
+      console.log('user', user);
+    });
+  }, []);
 
   if (shortcut.length === 0) {
     keyboardService.listen();

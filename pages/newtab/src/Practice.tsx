@@ -19,7 +19,7 @@ function capitalizeFirstLetter(string: string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-const Newtab = () => {
+const Practice = () => {
   const [showSettings, setShowSettings] = useState(false);
   const allShortcuts: Shortcut[] = useLiveQuery(() => db.shortcuts.toArray()) ?? [];
   allShortcuts.sort((a, b) => (b.lastExecutionDuration ?? 10000) - (a.lastExecutionDuration ?? 100000));
@@ -51,7 +51,7 @@ const Newtab = () => {
   return (
     <div className="App">
       <Toaster position="top-center" reverseOrder={false} />
-      <body className="bg-gray-50 flex items-center justify-center min-h-screen">
+      <div className="bg-gray-50 flex items-center justify-center min-h-screen">
         <button
           className="bg-black text-white py-2 p-8 rounded-md fixed top-10 right-10"
           onClick={() => setShowSettings(true)}>
@@ -77,9 +77,9 @@ const Newtab = () => {
             <button className="bg-black text-white py-2 p-8 rounded-md">Continue (Space)</button>
           </div>
         </div>
-      </body>
+      </div>
     </div>
   );
 };
 
-export default withErrorBoundary(withSuspense(Newtab, <div> Loading ... </div>), <div> Error Occur </div>);
+export default withErrorBoundary(withSuspense(Practice, <div> Loading ... </div>), <div> Error Occur </div>);

@@ -1,6 +1,6 @@
 import { createRoot } from 'react-dom/client';
 import '@src/index.css';
-import Newtab from '@src/Newtab';
+import Practice from '@src/Practice';
 
 function init() {
   const appContainer = document.querySelector('#app-container');
@@ -9,7 +9,7 @@ function init() {
   }
   const root = createRoot(appContainer);
 
-  root.render(<Newtab />);
+  root.render(<Practice />);
 }
 
 init();

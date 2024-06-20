@@ -24,6 +24,7 @@
   "dependencies": {
     "dexie": "^4.0.7",
     "dexie-react-hooks": "^1.1.7",
+    "extpay": "^3.0.7",
     "keymaster-reloaded": "^1.7.2",
     "micro-observables": "^1.7.2",
     "react": "18.2.0",

@@ -54,6 +54,11 @@ const manifest = Object.assign(
         matches: ['http://*/*', 'https://*/*', '<all_urls>'],
         css: ['content.css'], // public folder
       },
+      {
+        matches: ['https://extensionpay.com/*'],
+        js: ['ExtPay.js'],
+        run_at: 'document_start',
+      },
     ],
     devtools_page: 'devtools/index.html',
     web_accessible_resources: [
