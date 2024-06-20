@@ -1,7 +1,7 @@
 {
-  "name": "chrome-extension-boilerplate-react-vite",
+  "name": "shortcute",
   "version": "0.0.1",
-  "description": "chrome extension boilerplate",
+  "description": "shortcute desc",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -22,8 +22,13 @@
   },
   "type": "module",
   "dependencies": {
+    "dexie": "^4.0.7",
+    "dexie-react-hooks": "^1.1.7",
+    "keymaster-reloaded": "^1.7.2",
+    "micro-observables": "^1.7.2",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-hot-toast": "^2.4.1"
   },
   "devDependencies": {
     "@types/chrome": "^0.0.268",
@@ -53,7 +58,7 @@
     "typescript": "5.2.2",
     "vite": "^5.2.11"
   },
-  "packageManager": "pnpm@9.1.1",
+  "packageManager": "pnpm@9.1.2",
   "engines": {
     "node": ">=18.12.0"
   }

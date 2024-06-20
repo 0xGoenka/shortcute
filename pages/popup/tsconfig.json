@@ -3,16 +3,17 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@src/*": [
-        "src/*"
-      ]
+      "@src/*": ["src/*"]
     },
     "jsx": "react-jsx",
-    "types": [
-      "chrome"
-    ]
+    "types": ["chrome"]
   },
   "include": [
-    "src"
+    "src",
+    "../../chrome-extension/global.service/index.d.ts",
+    "../../chrome-extension/global.service/dexie.service.ts",
+    "../../chrome-extension/global.service/keyboard.service.ts",
+    "../../chrome-extension/global.service/saveshortcut.service.ts",
+    "../../chrome-extension/global.service/services.tsx"
   ]
 }
