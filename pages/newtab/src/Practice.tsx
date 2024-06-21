@@ -27,8 +27,6 @@ const Practice = () => {
   const arrayShortcut = useObservable(keyboardService.arrayShortcut);
   const expectedShortcut = useObservable(engineService.expectedShortcut);
 
-  console.log('Shortcut: ', shortcut, expectedShortcut?.shortcut);
-
   useEffect(() => {
     engineService.checkShortcutMatch(shortcut, expectedShortcut, () => keyboardService.clear());
   }, [shortcut]);

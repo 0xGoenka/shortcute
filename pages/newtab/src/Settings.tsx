@@ -10,7 +10,7 @@ type SettingsProps = {
 export const Settings = ({ allShortcuts, saveShortcutService, setShowSettings }: SettingsProps) => {
   return (
     <div className="App">
-      <body className="bg-gray-50 flex items-center justify-center min-h-screen">
+      <div className="bg-gray-50 flex items-center justify-center min-h-screen">
         <button
           className="bg-black text-white py-2 p-8 rounded-md fixed top-10 right-10"
           onClick={() => setShowSettings(false)}>
@@ -51,7 +51,7 @@ export const Settings = ({ allShortcuts, saveShortcutService, setShowSettings }:
             </table>
           </div>
         </div>
-      </body>
+      </div>
     </div>
   );
 };

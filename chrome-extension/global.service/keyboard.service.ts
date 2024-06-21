@@ -10,19 +10,17 @@ export class KeyboardService {
   }
 
   clear = () => {
+    console.log('CLEAR');
     this.keys = [];
     this.shortcut.set('');
     this.arrayShortcut.set([]);
   };
 
   keyup = (event: KeyboardEvent) => {
+    console.log('keyup', event.key);
     event.preventDefault(); // Prevent the default browser action (find in page)
     if (event.stopPropagation) event.stopPropagation();
     if (event.cancelBubble) event.cancelBubble = true;
-    if (event.ctrlKey) this.removeKey('Ctrl');
-    if (event.altKey) this.removeKey('Alt');
-    if (event.shiftKey) this.removeKey('Shift');
-    if (event.metaKey) this.removeKey('Meta');
 
     this.removeKey(event.key);
   };
@@ -39,6 +37,7 @@ export class KeyboardService {
 
     this.shortcut.set(this.keys.join(' + '));
     this.arrayShortcut.set(this.keys);
+    console.log('KEYS', this.keys);
   };
 
   listen = () => {
