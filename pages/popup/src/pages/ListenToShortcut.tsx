@@ -1,3 +1,6 @@
+import { useLiveQuery } from 'dexie-react-hooks';
+import { db } from '../../../../chrome-extension/global.service/dexie.service';
+
 const openNewTab = () => {
   console.log({ url: chrome.runtime.getURL('newtab.html') });
   chrome.tabs.create({ url: chrome.runtime.getURL('newtab/index.html') });
@@ -8,13 +11,17 @@ type SaveShortcutProps = {
 };
 
 export const ListenToShortcut = ({ shortcut }: SaveShortcutProps) => {
+  const haveSavedShortcut: boolean = useLiveQuery(() => db.shortcuts.toArray())?.length ? true : false;
+
   return (
-    <section className="flex items-center justify-center min-h-screen bg-gray-100">
+    <section className="flex items-center justify-center bg-gray-100">
       <div className="w-full max-w-md p-4 bg-white border border-gray-300 rounded-lg shadow-md">
-        <button onClick={openNewTab}>
-          <div className="cursor-pointer flex items-center justify-between p-4 bg-black text-white rounded">
-            <span className="text-xl">Practice your shortcuts</span>
-            <i className="fas fa-external-link-alt"></i>
+        <button
+          disabled={!haveSavedShortcut}
+          onClick={openNewTab}
+          className="cursor-pointer flex flex-1 w-[100%] items-center justify-around p-4 bg-black text-white rounded disabled:cursor-not-allowed disabled:opacity-50">
+          <div className="items-center">
+            <span className="text-xl align-center text-center">Practice your shortcuts</span>
           </div>
         </button>
         <div className="flex items-center justify-center my-4">

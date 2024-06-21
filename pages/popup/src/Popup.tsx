@@ -19,8 +19,10 @@ const Popup = () => {
       console.log('user paid!', user);
     });
     extPay.getUser().then(user => {
+      // extPay.openLoginPage();
       if (!user.paid) {
-        extPay.openPaymentPage();
+        console.log("user hasn't paid yet");
+        // extPay.openPaymentPage();
       }
       console.log('user', user);
     });
