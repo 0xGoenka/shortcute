@@ -85,7 +85,7 @@ const Practice = () => {
             <button
               onClick={() => engineService.pickShortcutToTrain(allShortcuts)}
               className="bg-black text-white py-2 p-8 rounded-md">
-              Continue (Space)
+              Continue
             </button>
           </div>
         </div>

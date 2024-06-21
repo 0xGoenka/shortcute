@@ -14,13 +14,6 @@ export const SaveShortcut = ({ shortcut, keyboardService }: SaveShortcutProps) =
   const timeoutID: MutableRefObject<undefined | number> = useRef(undefined);
   const name = useObservable(saveShortcutService.name);
 
-  useEffect(() => {
-    timeoutID.current = setTimeout(() => {
-      keyboardService.stopListening();
-    }, 1000);
-    console.log('Else');
-  }, []);
-
   return (
     <div className="flex items-center justify-center h-screen bg-gray-100">
       <div className="w-96 p-6 bg-white rounded-lg shadow-lg">
@@ -49,7 +42,12 @@ export const SaveShortcut = ({ shortcut, keyboardService }: SaveShortcutProps) =
           <div className="mb-4">
             <label className="block text-lg mb-2">
               Name <span className="text-sm">(What does the shortcut do)</span>
-              <input type="text" className="input-box" onChange={e => saveShortcutService.setName(e.target.value)} />
+              <input
+                autoFocus={true}
+                type="text"
+                className="input-box"
+                onChange={e => saveShortcutService.setName(e.target.value)}
+              />
             </label>
           </div>
           <div className="mb-4">

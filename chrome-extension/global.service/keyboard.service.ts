@@ -1,8 +1,9 @@
 import { WritableObservable, observable } from 'micro-observables';
 export class KeyboardService {
-  keys: string[] = [];
+  keys: WritableObservable<string[]> = observable([]);
   shortcut: WritableObservable<string> = observable('');
   arrayShortcut: WritableObservable<string[]> = observable([]);
+  isOnListenToShortcutPage = false;
 
   constructor() {
     console.log('KeyboardService created');
@@ -11,7 +12,7 @@ export class KeyboardService {
 
   clear = () => {
     console.log('CLEAR');
-    this.keys = [];
+    this.keys.set([]);
     this.shortcut.set('');
     this.arrayShortcut.set([]);
   };
@@ -35,9 +36,9 @@ export class KeyboardService {
     // else if (event.metaKey) this.addKey('Meta');
     this.addKey(event.key);
 
-    this.shortcut.set(this.keys.join(' + '));
-    this.arrayShortcut.set(this.keys);
-    console.log('KEYS', this.keys);
+    this.shortcut.set(this.keys.get().join(' + '));
+    this.arrayShortcut.set(this.keys.get());
+    console.log('KEYS', this.keys.get());
   };
 
   listen = () => {
@@ -53,19 +54,22 @@ export class KeyboardService {
   addKey = (key: string) => {
     if (key === ' ') key = 'Space';
     if (key === 'Control') key = 'Ctrl';
-    if (!this.keys.includes(key)) {
-      this.keys.push(key);
-      this.keys = this.sortKeys(this.keys);
+    if (!this.keys.get().includes(key)) {
+      this.keys.update(keys => this.sortKeys([...keys, key]));
     }
   };
 
   removeKey = (key: string) => {
     if (key === ' ') key = 'Space';
     if (key === 'Control') key = 'Ctrl';
-    this.keys = this.keys.filter(k => k !== key);
+    let savedKeys = this.keys.get();
+    savedKeys = savedKeys.filter(k => k !== key);
+    this.keys.set(savedKeys);
+    if (savedKeys.length === 0 && this.isOnListenToShortcutPage) {
+      console.log('End of listening', savedKeys.length);
+      this.stopListening();
+    }
   };
-
-  // Array to store currently pressed keys
 
   // Function to sort keys, with modifiers first
   sortKeys = (keys: string[]) => {

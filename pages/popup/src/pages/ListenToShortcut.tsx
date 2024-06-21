@@ -6,11 +6,7 @@ const openNewTab = () => {
   chrome.tabs.create({ url: chrome.runtime.getURL('newtab/index.html') });
 };
 
-type SaveShortcutProps = {
-  shortcut: string;
-};
-
-export const ListenToShortcut = ({ shortcut }: SaveShortcutProps) => {
+export const ListenToShortcut = () => {
   const shorcutsLen = useLiveQuery(() => db.shortcuts.toArray())?.length;
   const haveSavedShortcut: boolean = shorcutsLen && shorcutsLen >= 2 ? true : false;
 
@@ -31,7 +27,6 @@ export const ListenToShortcut = ({ shortcut }: SaveShortcutProps) => {
           <div className="w-1/3 h-0.5 bg-gray-400"></div>
         </div>
         <div className="text-center text-2xl mb-4">Save a new shortcut</div>
-        <p>{shortcut}</p>
         <div className="flex flex-col items-center justify-center p-6 bg-gray-200 rounded-lg">
           <div className="cursor-pointer w-16 h-16 bg-red-500 rounded-full flex items-center justify-center mb-4">
             <div className="w-8 h-8 bg-white rounded"></div>
