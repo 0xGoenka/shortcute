@@ -33,6 +33,16 @@ const Practice = () => {
 
   useEffect(() => {
     engineService.pickShortcutToTrain(allShortcuts);
+
+    // document.addEventListener('keydown', e => {
+    //   console.log('e.code', e.code);
+    //   if (e.code === 'Space') {
+    //     engineService.pickShortcutToTrain(allShortcuts);
+    //   }
+    // });
+    // return () => {
+    //   document.removeEventListener('keydown', () => {});
+    // };
   }, [allShortcuts]);
 
   if (showSettings) {
@@ -72,7 +82,11 @@ const Practice = () => {
             <p className="text-gray-500">Press the keys of the corresponding shortcut as if you were doing it</p>
           </div>
           <div>
-            <button className="bg-black text-white py-2 p-8 rounded-md">Continue (Space)</button>
+            <button
+              onClick={() => engineService.pickShortcutToTrain(allShortcuts)}
+              className="bg-black text-white py-2 p-8 rounded-md">
+              Continue (Space)
+            </button>
           </div>
         </div>
       </div>

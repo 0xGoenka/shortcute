@@ -11,7 +11,8 @@ type SaveShortcutProps = {
 };
 
 export const ListenToShortcut = ({ shortcut }: SaveShortcutProps) => {
-  const haveSavedShortcut: boolean = useLiveQuery(() => db.shortcuts.toArray())?.length ? true : false;
+  const shorcutsLen = useLiveQuery(() => db.shortcuts.toArray())?.length;
+  const haveSavedShortcut: boolean = shorcutsLen && shorcutsLen >= 2 ? true : false;
 
   return (
     <section className="flex items-center justify-center bg-gray-100">
