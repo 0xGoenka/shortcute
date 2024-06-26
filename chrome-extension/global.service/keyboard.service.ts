@@ -43,9 +43,9 @@ export class KeyboardService {
   };
 
   listen = () => {
-    console.log('start of listening');
     if (this.isListening) return;
     this.isListening = true;
+    console.log('start of listening');
     document.addEventListener('keydown', this.keydown);
     document.addEventListener('keyup', this.keyup);
   };
@@ -53,6 +53,7 @@ export class KeyboardService {
   stopListening = () => {
     if (!this.isListening) return;
     this.isListening = false;
+    console.log('End of listening');
     document.removeEventListener('keydown', this.keydown);
     document.removeEventListener('keyup', this.keyup);
   };
@@ -74,7 +75,6 @@ export class KeyboardService {
     savedKeys = savedKeys.filter(k => k !== key);
     this.keys.set(savedKeys);
     if (savedKeys.length === 0 && this.isOnListenToShortcutPage) {
-      console.log('End of listening', savedKeys.length);
       this.stopListening();
     }
   };
