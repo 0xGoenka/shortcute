@@ -24,6 +24,9 @@ export class KeyboardService {
     if (event.stopPropagation) event.stopPropagation();
     if (event.cancelBubble) event.cancelBubble = true;
 
+    if (event.altKey) this.removeKey('Alt');
+    if (event.shiftKey) this.removeKey('Shift');
+    if (event.metaKey) this.removeKey('Meta');
     this.removeKey(event.key);
   };
 
@@ -32,9 +35,9 @@ export class KeyboardService {
     event.preventDefault(); // Prevent the default browser action (find in page)
     if (event.stopPropagation) event.stopPropagation();
     if (event.cancelBubble) event.cancelBubble = true;
-    // if (event.altKey) this.addKey('Alt');
-    // else if (event.shiftKey) this.addKey('Shift');
-    // else if (event.metaKey) this.addKey('Meta');
+    if (event.altKey) this.addKey('Alt');
+    if (event.shiftKey) this.addKey('Shift');
+    if (event.metaKey) this.addKey('Meta');
     this.addKey(event.key);
 
     this.shortcut.set(this.keys.get().join(' + '));
