@@ -19,7 +19,7 @@ export class KeyboardService {
   };
 
   keyup = (event: KeyboardEvent) => {
-    console.log('keyup', event.key);
+    console.log('keyup', event.key, event);
     event.preventDefault(); // Prevent the default browser action (find in page)
     if (event.stopPropagation) event.stopPropagation();
     if (event.cancelBubble) event.cancelBubble = true;
@@ -27,7 +27,9 @@ export class KeyboardService {
     if (event.altKey) this.removeKey('Alt');
     if (event.shiftKey) this.removeKey('Shift');
     if (event.metaKey) this.removeKey('Meta');
-    this.removeKey(event.key);
+    this.keys.set([]);
+    this.stopListening();
+    // this.removeKey(event.key);
   };
 
   keydown = (event: KeyboardEvent) => {

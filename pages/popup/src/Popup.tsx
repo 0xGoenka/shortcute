@@ -15,6 +15,11 @@ const Popup = () => {
   const shortcut = useObservable(keyboardService.shortcut);
   const keys = useObservable(keyboardService.keys);
   console.log('keys', keys, 'shortcut', shortcut);
+  addEventListener('compositionend', e => {
+    console.log('compositionend', e);});
+
+    addEventListener('compositionstart', e => {
+      console.log('compositionend', e);});
 
   useEffect(() => {
     extPay.onPaid.addListener(user => {
