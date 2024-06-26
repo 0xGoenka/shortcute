@@ -4,6 +4,7 @@ export class KeyboardService {
   shortcut: WritableObservable<string> = observable('');
   arrayShortcut: WritableObservable<string[]> = observable([]);
   isOnListenToShortcutPage = false;
+  isListening = false;
 
   constructor() {
     console.log('KeyboardService created');
@@ -43,11 +44,15 @@ export class KeyboardService {
 
   listen = () => {
     console.log('start of listening');
+    if (this.isListening) return;
+    this.isListening = true;
     document.addEventListener('keydown', this.keydown);
     document.addEventListener('keyup', this.keyup);
   };
 
   stopListening = () => {
+    if (!this.isListening) return;
+    this.isListening = false;
     document.removeEventListener('keydown', this.keydown);
     document.removeEventListener('keyup', this.keyup);
   };
