@@ -42,6 +42,7 @@ export class KeyboardService {
   };
 
   listen = () => {
+    console.log('start of listening');
     document.addEventListener('keydown', this.keydown);
     document.addEventListener('keyup', this.keyup);
   };
@@ -54,6 +55,7 @@ export class KeyboardService {
   addKey = (key: string) => {
     if (key === ' ') key = 'Space';
     if (key === 'Control') key = 'Ctrl';
+    key = key.charAt(0).toUpperCase() + key.slice(1);
     if (!this.keys.get().includes(key)) {
       this.keys.update(keys => this.sortKeys([...keys, key]));
     }
@@ -62,6 +64,7 @@ export class KeyboardService {
   removeKey = (key: string) => {
     if (key === ' ') key = 'Space';
     if (key === 'Control') key = 'Ctrl';
+    key = key.charAt(0).toUpperCase() + key.slice(1);
     let savedKeys = this.keys.get();
     savedKeys = savedKeys.filter(k => k !== key);
     this.keys.set(savedKeys);
