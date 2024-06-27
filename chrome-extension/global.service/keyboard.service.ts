@@ -11,7 +11,7 @@ export class KeyboardService {
   constructor() {
     console.log('KeyboardService created');
     this.shortcut.subscribe(shortcut => console.log('shortcut', shortcut));
-    chrome.runtime.getPlatformInfo(function (info) {
+    chrome.runtime.getPlatformInfo( (info) => {
       // Display host OS in the console
       console.log(' OS = ', info.os);
       this.os = info.os;
