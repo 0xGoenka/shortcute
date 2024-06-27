@@ -35,7 +35,7 @@ export class KeyboardService {
     if (event.shiftKey) this.removeKey('Shift');
     if (event.metaKey) this.removeKey('Meta');
     this.keys.set([]);
-    this.stopListening();
+    if (this.isOnListenToShortcutPage) this.stopListening();
     // this.removeKey(event.key);
   };
 

@@ -13,6 +13,7 @@ import { Toaster } from 'react-hot-toast';
 
 const saveShortcutService = new SaveShortcutService();
 const keyboardService = new KeyboardService();
+keyboardService.isOnListenToShortcutPage = false;
 const engineService = new EngineService();
 
 function capitalizeFirstLetter(string: string) {
@@ -32,10 +33,12 @@ const Practice = () => {
 
   useEffect(() => {
     engineService.checkShortcutMatch(shortcut, expectedShortcut, () => keyboardService.clear());
+    keyboardService.listen();
   }, [shortcut]);
 
   useEffect(() => {
     engineService.pickShortcutToTrain(allShortcuts);
+    keyboardService.listen();
   }, [allShortcuts]);
 
   if (showSettings) {
@@ -47,24 +50,32 @@ const Practice = () => {
     );
   }
 
-  keyboardService.listen();
-
   return (
-    <div className="App">
+    <div className="h-full">
       <Toaster position="top-center" reverseOrder={false} />
-      <div className="bg-gray-50 flex items-center justify-center min-h-screen">
-        <button
-          className="bg-black text-white py-2 p-8 rounded-md fixed top-10 right-10"
-          onClick={() => setShowSettings(true)}>
-          Settings
-        </button>
-        <div className="text-center">
-          <h1 className="text-3xl font-semibold mb-8 text-black">{expectedShortcut?.name}</h1>
-          <div className="bg-gray-100 border border-gray-300 rounded-lg p-8 mb-8 inline-block">
+      <header className="w-full flex justify-between items-center p-4">
+        <div className="text-lg font-medium">Shortcut_app</div>
+        <nav className="space-x-4">
+          {/* <a href="#" className="text-gray-700">
+            Practice
+          </a> */}
+          <button className="text-gray-700" onClick={() => setShowSettings(true)}>
+            Shortcuts
+          </button>
+          <button className="text-gray-700">Account</button>
+        </nav>
+      </header>
+      <div className="flex flex-col items-center justify-center">
+        <main className="flex flex-col items-center mt-16">
+          <div className="text-gray-500 text-lg">{expectedShortcut?.software}</div>
+          <h1 className="text-3xl font-bold mt-2 text-black">{expectedShortcut?.name}</h1>
+          <div className="bg-gray-100 rounded-lg shadow-md p-8 mt-8 w-96 flex flex-col items-center">
             {!reveal ? (
-              <div className="flex justify-center">
-                {shortcut[0] === '' && <div className="animate-bounce text-xl p-8">Listenning for keystrokes...</div>}
-                {shortcut[0] !== '' &&
+              <div className="flex flex-row items-end h-16 ms-2">
+                {shortcut == '' && (
+                  <div className="bg-black text-white text-2xl font-semibold rounded-md w-16 h-1 flex items-center justify-center mx-2 mb-4 animate-blink"></div>
+                )}
+                {shortcut !== '' &&
                   arrayShortcut.map((keystroke, i) => (
                     <div
                       key={i}
@@ -85,12 +96,14 @@ const Practice = () => {
                   ))}
               </div>
             )}
-            <p className="text-gray-500">Press the keys of the corresponding shortcut as if you were doing it</p>
+            <p className="text-gray-500 text-center">
+              Press the keys of the corresponding shortcut as if you were doing it
+            </p>
           </div>
           <div>
             {!reveal ? (
-              <button onClick={() => setReveal(true)} className="bg-black text-white py-2 p-8 rounded-md">
-                Reveal
+              <button onClick={() => setReveal(true)} className="mt-8 bg-black text-white py-2 px-4 rounded">
+                Reveal shortcut
               </button>
             ) : (
               <button
@@ -99,12 +112,12 @@ const Practice = () => {
                   setReveal(false);
                   keyboardService.clear();
                 }}
-                className="bg-black text-white py-2 p-8 rounded-md">
+                className="mt-8 bg-black text-white py-2 px-4 rounded">
                 Continue
               </button>
             )}
           </div>
-        </div>
+        </main>
       </div>
     </div>
   );
