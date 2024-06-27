@@ -13,7 +13,7 @@ export class KeyboardService {
     this.shortcut.subscribe(shortcut => console.log('shortcut', shortcut));
     chrome.runtime.getPlatformInfo(function (info) {
       // Display host OS in the console
-      console.log(info.os);
+      console.log(' OS = ', info.os);
       this.os = info.os;
     });
   }
@@ -74,6 +74,7 @@ export class KeyboardService {
     if (key === ' ') key = 'Space';
     if (key === 'Control') key = 'Ctrl';
     if (key === 'Meta' && this.os === 'mac') key = 'Cmd';
+    console.log('ADD KEY', key);
     key = key.charAt(0).toUpperCase() + key.slice(1);
     if (!this.keys.get().includes(key)) {
       this.keys.update(keys => this.sortKeys([...keys, key]));
@@ -95,7 +96,7 @@ export class KeyboardService {
 
   // Function to sort keys, with modifiers first
   sortKeys = (keys: string[]) => {
-    const modifierKeys = ['Control', 'Shift', 'Alt', 'Meta'];
+    const modifierKeys = ['Control', 'Shift', 'Alt', 'Meta', 'Cmd'];
 
     const sortedModifiersKeys = keys.sort((a, b) => {
       const aIsModifier = modifierKeys.includes(a);
