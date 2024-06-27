@@ -1,14 +1,21 @@
 import { WritableObservable, observable } from 'micro-observables';
+
 export class KeyboardService {
   keys: WritableObservable<string[]> = observable([]);
   shortcut: WritableObservable<string> = observable('');
   arrayShortcut: WritableObservable<string[]> = observable([]);
   isOnListenToShortcutPage = false;
   isListening = false;
+  os = '';
 
   constructor() {
     console.log('KeyboardService created');
     this.shortcut.subscribe(shortcut => console.log('shortcut', shortcut));
+    chrome.runtime.getPlatformInfo(function (info) {
+      // Display host OS in the console
+      console.log(info.os);
+      this.os = info.os;
+    });
   }
 
   clear = () => {
@@ -66,6 +73,7 @@ export class KeyboardService {
   addKey = (key: string) => {
     if (key === ' ') key = 'Space';
     if (key === 'Control') key = 'Ctrl';
+    if (key === 'Meta' && this.os === 'mac') key = 'Cmd';
     key = key.charAt(0).toUpperCase() + key.slice(1);
     if (!this.keys.get().includes(key)) {
       this.keys.update(keys => this.sortKeys([...keys, key]));
@@ -75,6 +83,7 @@ export class KeyboardService {
   removeKey = (key: string) => {
     if (key === ' ') key = 'Space';
     if (key === 'Control') key = 'Ctrl';
+    if (key === 'Meta' && this.os === 'mac') key = 'Cmd';
     key = key.charAt(0).toUpperCase() + key.slice(1);
     let savedKeys = this.keys.get();
     savedKeys = savedKeys.filter(k => k !== key);
