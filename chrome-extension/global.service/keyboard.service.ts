@@ -87,12 +87,22 @@ export class KeyboardService {
   // Function to sort keys, with modifiers first
   sortKeys = (keys: string[]) => {
     const modifierKeys = ['Control', 'Shift', 'Alt', 'Meta'];
-    return keys.sort((a, b) => {
+
+    const sortedModifiersKeys = keys.sort((a, b) => {
       const aIsModifier = modifierKeys.includes(a);
       const bIsModifier = modifierKeys.includes(b);
       if (aIsModifier && !bIsModifier) return -1;
       if (!aIsModifier && bIsModifier) return 1;
       return 0;
     });
+
+    const sortedKeys = sortedModifiersKeys.sort((a, b) => {
+      if (a.length === 1 && b.length === 1) return a.localeCompare(b);
+      return 0;
+    });
+
+    console.log('SORTED KEYS', sortedKeys);
+
+    return sortedKeys;
   };
 }
