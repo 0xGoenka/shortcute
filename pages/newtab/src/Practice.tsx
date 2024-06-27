@@ -21,11 +21,14 @@ function capitalizeFirstLetter(string: string) {
 
 const Practice = () => {
   const [showSettings, setShowSettings] = useState(false);
+  const [reveal, setReveal] = useState(false);
   const allShortcuts: Shortcut[] = useLiveQuery(() => db.shortcuts.toArray()) ?? [];
   allShortcuts.sort((a, b) => (b.lastExecutionDuration ?? 10000) - (a.lastExecutionDuration ?? 100000));
   const shortcut = useObservable(keyboardService.shortcut);
   const arrayShortcut = useObservable(keyboardService.arrayShortcut);
   const expectedShortcut = useObservable(engineService.expectedShortcut);
+
+  const arrayExpectedShortcut = keyboardService.shortcutToArr(expectedShortcut?.shortcut ?? '');
 
   useEffect(() => {
     engineService.checkShortcutMatch(shortcut, expectedShortcut, () => keyboardService.clear());
@@ -33,16 +36,6 @@ const Practice = () => {
 
   useEffect(() => {
     engineService.pickShortcutToTrain(allShortcuts);
-
-    // document.addEventListener('keydown', e => {
-    //   console.log('e.code', e.code);
-    //   if (e.code === 'Space') {
-    //     engineService.pickShortcutToTrain(allShortcuts);
-    //   }
-    // });
-    // return () => {
-    //   document.removeEventListener('keydown', () => {});
-    // };
   }, [allShortcuts]);
 
   if (showSettings) {
@@ -68,25 +61,48 @@ const Practice = () => {
         <div className="text-center">
           <h1 className="text-3xl font-semibold mb-8 text-black">{expectedShortcut?.name}</h1>
           <div className="bg-gray-100 border border-gray-300 rounded-lg p-8 mb-8 inline-block">
-            <div className="flex justify-center">
-              {shortcut[0] === '' && <div className="animate-bounce text-xl p-8">Listenning for keystrokes...</div>}
-              {shortcut[0] !== '' &&
-                arrayShortcut.map((keystroke, i) => (
-                  <div
-                    key={i}
-                    className="bg-black text-white text-2xl font-semibold rounded-md w-16 h-16 flex items-center justify-center mx-2 mb-4">
-                    {capitalizeFirstLetter(keystroke)}
-                  </div>
-                ))}
-            </div>
+            {!reveal ? (
+              <div className="flex justify-center">
+                {shortcut[0] === '' && <div className="animate-bounce text-xl p-8">Listenning for keystrokes...</div>}
+                {shortcut[0] !== '' &&
+                  arrayShortcut.map((keystroke, i) => (
+                    <div
+                      key={i}
+                      className="bg-black text-white text-2xl font-semibold rounded-md w-16 h-16 flex items-center justify-center mx-2 mb-4">
+                      {capitalizeFirstLetter(keystroke)}
+                    </div>
+                  ))}
+              </div>
+            ) : (
+              <div className="flex justify-center">
+                {shortcut[0] !== '' &&
+                  arrayExpectedShortcut.map((keystroke, i) => (
+                    <div
+                      key={i}
+                      className="bg-black text-white text-2xl font-semibold rounded-md w-16 h-16 flex items-center justify-center mx-2 mb-4">
+                      {capitalizeFirstLetter(keystroke)}
+                    </div>
+                  ))}
+              </div>
+            )}
             <p className="text-gray-500">Press the keys of the corresponding shortcut as if you were doing it</p>
           </div>
           <div>
-            <button
-              onClick={() => engineService.pickShortcutToTrain(allShortcuts)}
-              className="bg-black text-white py-2 p-8 rounded-md">
-              Continue
-            </button>
+            {!reveal ? (
+              <button onClick={() => setReveal(true)} className="bg-black text-white py-2 p-8 rounded-md">
+                Reveal
+              </button>
+            ) : (
+              <button
+                onClick={() => {
+                  engineService.pickShortcutToTrain(allShortcuts);
+                  setReveal(false);
+                  keyboardService.clear();
+                }}
+                className="bg-black text-white py-2 p-8 rounded-md">
+                Continue
+              </button>
+            )}
           </div>
         </div>
       </div>
