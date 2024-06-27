@@ -14,12 +14,15 @@ const extPay = ExtPay('shortcute');
 const Popup = () => {
   const shortcut = useObservable(keyboardService.shortcut);
   const keys = useObservable(keyboardService.keys);
+  const arrayShortcut = useObservable(keyboardService.arrayShortcut);
   console.log('keys', keys, 'shortcut', shortcut);
   addEventListener('compositionend', e => {
-    console.log('compositionend', e);});
+    console.log('compositionend', e);
+  });
 
-    addEventListener('compositionstart', e => {
-      console.log('compositionend', e);});
+  addEventListener('compositionstart', e => {
+    console.log('compositionend', e);
+  });
 
   useEffect(() => {
     extPay.onPaid.addListener(user => {
@@ -38,7 +41,7 @@ const Popup = () => {
   if (shortcut.length === 0 || keys.length) {
     keyboardService.isOnListenToShortcutPage = true;
     keyboardService.listen();
-    return <ListenToShortcut></ListenToShortcut>;
+    return <ListenToShortcut shortcut={shortcut} arrayShortcut={arrayShortcut}></ListenToShortcut>;
   } else {
     keyboardService.isOnListenToShortcutPage = false;
     return <SaveShortcut shortcut={shortcut} keyboardService={keyboardService} />;

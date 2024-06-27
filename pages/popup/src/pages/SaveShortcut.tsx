@@ -1,7 +1,8 @@
-import { MutableRefObject, useEffect, useRef } from 'react';
+import { MutableRefObject, useRef } from 'react';
 import { KeyboardService } from '../../../../chrome-extension/global.service/keyboard.service';
 import { SaveShortcutService } from '../../../../chrome-extension/global.service/saveshortcut.service';
 import { useObservable } from 'micro-observables';
+import { TfiReload } from 'react-icons/tfi';
 
 const saveShortcutService = new SaveShortcutService();
 
@@ -15,23 +16,19 @@ export const SaveShortcut = ({ shortcut, keyboardService }: SaveShortcutProps) =
   const name = useObservable(saveShortcutService.name);
 
   return (
-    <div className="flex items-center justify-center h-screen bg-gray-100">
+    <div className="flex items-center justify-center bg-gray-100">
       <div className="w-96 p-6 bg-white rounded-lg shadow-lg">
-        <h1 className="text-center text-2xl mb-4">Save a new shorcut</h1>
+        <h1 className="text-center text-2xl mb-4">Save a shorcut</h1>
         <div className="mb-4">
-          <label className="block text-lg mb-2">
-            the shortcut{' '}
-            <span className="float-right">
-              <button
-                onClick={() => {
-                  keyboardService.clear();
-                  clearTimeout(timeoutID.current);
-                }}>
-                <i className="fas fa-redo"></i> Redo
-              </button>
-            </span>
-          </label>
-          <div className="shortcut-box">{shortcut}</div>
+          <div className="shortcut-box mt-4">{shortcut}</div>
+          <button
+            className="fixed top-[94px] right-8 p-2 text-black rounded-lg z-50"
+            onClick={() => {
+              keyboardService.clear();
+              clearTimeout(timeoutID.current);
+            }}>
+            <TfiReload size={15} />
+          </button>
         </div>
         <form
           onSubmit={() => {
@@ -45,7 +42,7 @@ export const SaveShortcut = ({ shortcut, keyboardService }: SaveShortcutProps) =
               <input
                 autoFocus={true}
                 type="text"
-                className="input-box"
+                className="input-box rounded-md"
                 onChange={e => saveShortcutService.setName(e.target.value)}
               />
             </label>
@@ -55,7 +52,7 @@ export const SaveShortcut = ({ shortcut, keyboardService }: SaveShortcutProps) =
               Software <span className="text-sm">(optional)</span>
               <input
                 type="text"
-                className="input-box"
+                className="input-box rounded-md"
                 onChange={e => saveShortcutService.setSoftware(e.target.value)}
               />
             </label>
@@ -65,7 +62,7 @@ export const SaveShortcut = ({ shortcut, keyboardService }: SaveShortcutProps) =
               Description <span className="text-sm">(optional)</span>
               <input
                 type="text"
-                className="input-box"
+                className="input-box rounded-md"
                 onChange={e => saveShortcutService.setDescription(e.target.value)}
               />
             </label>
