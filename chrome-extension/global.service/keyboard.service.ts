@@ -74,7 +74,8 @@ export class KeyboardService {
     if (key === ' ') key = 'Space';
     if (key === 'Control') key = 'Ctrl';
     if (key === 'Meta' && this.os === 'mac') key = 'Cmd';
-    console.log('ADD KEY', key);
+
+    console.log('ADD KEY', key, this.os);
     key = key.charAt(0).toUpperCase() + key.slice(1);
     if (!this.keys.get().includes(key)) {
       this.keys.update(keys => this.sortKeys([...keys, key]));
